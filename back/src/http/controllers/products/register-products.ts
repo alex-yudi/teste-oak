@@ -12,7 +12,7 @@ export async function registerProductReq(request: FastifyRequest, reply: Fastify
 
 
         return reply.status(200).send(productRegistered);
-    } catch (error: unknown) {
-        throw error
+    } catch (error: any) {
+        return reply.status(500).send(`Erro no campo: ${error.meta.target}, já existe item com esse nome`)
     }
 }
