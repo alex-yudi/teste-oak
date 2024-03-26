@@ -2,6 +2,8 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import "./styles.css"
 
+import { api } from "@/lib/axios";
+
 type Product = {
     name: string,
     description: string,
@@ -34,7 +36,7 @@ export default function RegisterProduct() {
     const [productRegistered, setProductRegistered] = useState<Product>(productDefault)
     const [inputErrorMessage, setInputErrorMessage] = useState<ErrorMessage>(errorMessageDefault)
 
-    const handleSubmit: FormEventHandler = (e) => {
+    const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
         if (productRegistered.name === '') {
             return setInputErrorMessage({
@@ -59,6 +61,21 @@ export default function RegisterProduct() {
                 ...errorMessageDefault,
                 available: "Selecione se o produto está disponível ou não"
             })
+        }
+        setInputErrorMessage(errorMessageDefault)
+
+        const dataToBeSent = {
+            name: productRegistered.name,
+            description: productRegistered.description,
+            value: (Number(productRegistered.value) * 100),
+            available: productRegistered.available === 'true' ? true : false,
+        }
+
+        try {
+            const response = await api.post('/products', dataToBeSent);
+            console.log(response)
+        } catch (error: unknown) {
+            console.log(error)
         }
 
     }
@@ -109,6 +126,8 @@ export default function RegisterProduct() {
                     type="number"
                     name="value"
                     id="product-value"
+                    min={0}
+                    step={0.01}
                     value={productRegistered.value}
                     onChange={handleChangeValue}
                 />
