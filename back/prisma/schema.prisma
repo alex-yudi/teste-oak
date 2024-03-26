@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id                   Int    @id @default(autoincrement())
+  name                 String @unique
+  link_logo            String
+  state_origin         String
+  cost_kwh             Int
+  lim_min_kwh          Int
+  total_customers      Int
+  evaluation_customers Float
+}
