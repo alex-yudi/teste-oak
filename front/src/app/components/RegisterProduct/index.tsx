@@ -1,9 +1,11 @@
 'use client'
+import "./styles.css"
 import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
-import "./styles.css"
+
 
 import { api } from "@/lib/axios";
+import { submitRegisterProduct } from "@/app/utils/submitForm";
 
 type Product = {
     name: string,
@@ -73,7 +75,7 @@ export default function RegisterProduct() {
         }
 
         try {
-            await api.post('/products', dataToBeSent);
+            submitRegisterProduct(dataToBeSent)
             router.push('/list-products')
         } catch (error: any) {
             return alert(error.response.data)
