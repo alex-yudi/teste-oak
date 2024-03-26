@@ -6,22 +6,61 @@ type Product = {
     name: string,
     description: string,
     value: number,
-    available: boolean,
+    available: string,
 }
 
 const productDefault = {
     name: "",
     description: "",
     value: 0,
-    available: false,
+    available: '',
+}
+
+type ErrorMessage = {
+    name: string,
+    description: string,
+    value: string,
+    available: string,
+}
+
+const errorMessageDefault = {
+    name: "",
+    description: "",
+    value: "",
+    available: ""
 }
 
 export default function RegisterProduct() {
     const [productRegistered, setProductRegistered] = useState<Product>(productDefault)
+    const [inputErrorMessage, setInputErrorMessage] = useState<ErrorMessage>(errorMessageDefault)
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log(productRegistered)
+        if (productRegistered.name === '') {
+            return setInputErrorMessage({
+                ...errorMessageDefault,
+                name: "O nome do produto é obrigatório"
+            })
+        }
+        if (productRegistered.description === '') {
+            return setInputErrorMessage({
+                ...errorMessageDefault,
+                description: "A descrição do produto é obrigatório"
+            })
+        }
+        if (productRegistered.value == null || productRegistered.value == 0) {
+            return setInputErrorMessage({
+                ...errorMessageDefault,
+                value: "O valor do produto é obrigatório"
+            })
+        }
+        if (productRegistered.available === '') {
+            return setInputErrorMessage({
+                ...errorMessageDefault,
+                available: "Selecione se o produto está disponível ou não"
+            })
+        }
+
     }
 
     const handleChangeValue: ChangeEventHandler<HTMLInputElement> & ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -39,7 +78,7 @@ export default function RegisterProduct() {
                 Cadastro de novo produto
             </h3>
             <label htmlFor="product-name">
-                Nome do produto
+                Nome do produto*
                 <input
                     type="text"
                     name="name"
@@ -47,9 +86,12 @@ export default function RegisterProduct() {
                     value={productRegistered.name}
                     onChange={handleChangeValue}
                 />
+                <span>
+                    {inputErrorMessage.name}
+                </span>
             </label>
             <label htmlFor="product-description">
-                Descrição do produto
+                Descrição do produto*
                 <input
                     type="text"
                     name="description"
@@ -57,9 +99,12 @@ export default function RegisterProduct() {
                     value={productRegistered.description}
                     onChange={handleChangeValue}
                 />
+                <span>
+                    {inputErrorMessage.description}
+                </span>
             </label>
             <label htmlFor="product-value">
-                Valor do produto
+                Valor do produto*
                 <input
                     type="number"
                     name="value"
@@ -67,9 +112,12 @@ export default function RegisterProduct() {
                     value={productRegistered.value}
                     onChange={handleChangeValue}
                 />
+                <span>
+                    {inputErrorMessage.value}
+                </span>
             </label>
             <label htmlFor="product-available">
-                Produto disponível:
+                Produto disponível*:
                 <select
                     name="available"
                     id="product-available"
@@ -79,6 +127,9 @@ export default function RegisterProduct() {
                     <option value="true"> Sim </option>
                     <option value="false"> Não </option>
                 </select>
+                <span>
+                    {inputErrorMessage.available}
+                </span>
             </label>
 
             <button>
