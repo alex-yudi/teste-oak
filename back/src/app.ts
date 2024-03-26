@@ -1,18 +1,24 @@
-import "reflect-metadata";
+import fastify from 'fastify'
+import { appRoutes } from './http/router'
+import { ZodError } from 'zod'
+import { env } from './env'
 
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "type-graphql";
-import { FetchAgentsByMinKwhResolver } from "./resolvers/fetch-agents-by-min-kwh-resolver";
+export const app = fastify()
 
-export async function app(port: number) {
-  const schema = await buildSchema({
-    resolvers: [FetchAgentsByMinKwhResolver]
-  });
+app.register(appRoutes)
 
-  const server = new ApolloServer({
-    schema,
-  });
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply
+      .status(400)
+      .send({ message: 'Validation error', issues: error.format() })
+  }
 
-  const { url } = await server.listen(port);
-  console.log(`Server is running, GraphQL available at ${url}`);
-}
+  if (env.NODE_ENV !== 'production') {
+    console.error(error)
+  } else {
+    // ToDo: Here we should log to an external tool like DataDog/NewRelic/Sentry
+  }
+
+  return reply.status(500).send({ message: 'Internal server error.' })
+})
