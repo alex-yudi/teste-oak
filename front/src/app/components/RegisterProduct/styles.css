@@ -1,0 +1,79 @@
+.form-register-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    min-height: calc(100vh - 15rem);
+
+    margin: 1rem;
+    padding: 2rem;
+
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.form-register-product>h3 {
+    margin-top: 1rem;
+    align-self: center;
+}
+
+.form-register-product label {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.2rem;
+
+    font-size: 1rem;
+}
+
+.form-register-product label input {
+    all: unset;
+    padding: 0.5rem;
+
+    border: 1.5px solid rgb(136, 136, 136);
+    border-radius: 5px;
+
+    cursor: text;
+    font-size: 1rem;
+    background-color: rgb(204, 202, 200);
+}
+
+.form-register-product label input:focus {
+    outline: 1.5px solid rgb(5, 73, 25);
+}
+
+.form-register-product label select {
+    padding: 0.5rem;
+
+    border: 1.5px solid rgb(136, 136, 136);
+    border-radius: 5px;
+
+    font-size: 1rem;
+    background-color: rgb(204, 202, 200);
+}
+
+.form-register-product>button {
+    all: unset;
+
+    margin-top: 1rem;
+    align-self: center;
+    padding: 0.7rem;
+    border-radius: 5px;
+
+    background-color: rgb(204, 202, 200);
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.form-register-product>button:hover {
+    background-color: rgb(160, 160, 160);
+}
+
+.form-register-product>button:active {
+    background-color: rgb(49, 49, 49);
+    color: white;
+}

@@ -1,0 +1,14 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 100vw;
+    padding: 1.5rem;
+
+    border-bottom: 1px solid #51ad9e;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(224, 224, 224);
+}
