@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import "./styles.css"
 
@@ -35,7 +36,7 @@ const errorMessageDefault = {
 export default function RegisterProduct() {
     const [productRegistered, setProductRegistered] = useState<Product>(productDefault)
     const [inputErrorMessage, setInputErrorMessage] = useState<ErrorMessage>(errorMessageDefault)
-
+    const router = useRouter()
     const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
         if (productRegistered.name === '') {
@@ -72,12 +73,11 @@ export default function RegisterProduct() {
         }
 
         try {
-            const response = await api.post('/products', dataToBeSent);
-            console.log(response)
-        } catch (error: unknown) {
-            console.log(error)
+            await api.post('/products', dataToBeSent);
+            router.push('/list-products')
+        } catch (error: any) {
+            return alert(error.response.data)
         }
-
     }
 
     const handleChangeValue: ChangeEventHandler<HTMLInputElement> & ChangeEventHandler<HTMLSelectElement> = (e) => {
